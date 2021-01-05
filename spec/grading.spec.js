@@ -13,8 +13,10 @@ const options = {
    pretendToBeVisual: true
 }
 
-let html = fs.readFileSync('/Users/sallysteuterman/Development/LaunchCode/JavaScript/lc101-solutions-unit1/assignments/assignment5/index.html', 'utf8');
-let script = fs.readFileSync('/Users/sallysteuterman/Development/LaunchCode/JavaScript/lc101-solutions-unit1/assignments/assignment5/script.js', 'utf8');
+// Fix file paths!
+
+let html = fs.readFileSync('', 'utf8');
+let script = fs.readFileSync('', 'utf8');
 
 describe ("Grading Tests: ", function () {
 
