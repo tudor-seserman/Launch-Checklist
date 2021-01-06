@@ -4,6 +4,7 @@ var studentFunctions = require('../scriptHelper.js');
 
 // Set up JSDom
 const fs = require('fs');
+const path = require("path");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
@@ -13,10 +14,8 @@ const options = {
    pretendToBeVisual: true
 }
 
-// Fix file paths!
-
-let html = fs.readFileSync('', 'utf8');
-let script = fs.readFileSync('', 'utf8');
+let html = fs.readFileSync(path.resolve(__dirname, "../index.html"), 'utf8');
+let script = fs.readFileSync(path.resolve(__dirname, "../script.js"), 'utf8');
 
 describe ("Grading Tests: ", function () {
 
