@@ -17,7 +17,7 @@ const options = {
 let html = fs.readFileSync(path.resolve(__dirname, "../index.html"), 'utf8');
 let script = fs.readFileSync(path.resolve(__dirname, "../script.js"), 'utf8');
 
-describe ("Grading Tests: ", function () {
+describe ("GRADING DOM MANIPULATION TEST: ", function () {
 
    let window, container, list, h2, pilotStatus, copilotStatus, fuelStatus, cargoStatus, missionTarget; 
 
@@ -25,13 +25,12 @@ describe ("Grading Tests: ", function () {
 
       const dom = new JSDOM(html, options);
       window = dom.window;
-      
+
       let scriptElement = window.document.createElement("script");
       scriptElement.textContent = script;
       window.document.head.appendChild(scriptElement);
 
       window.addEventListener('load', () => {
-         // console.log(dom.window.document.body.innerHTML);
          container = dom.window.document.body;
          list = screen.getByTestId(container, "faultyItems");
          h2 = screen.getByTestId(container, "launchStatus");
@@ -114,8 +113,15 @@ describe ("Grading Tests: ", function () {
    it ("Mission target has the appropriate info", function() {
      let testTarget = missionTarget.innerHTML.replace(/\s/g,'');
      expect(testTarget).toEqual("<!--Fetchsomeplanetarydata-->");
-     studentFunctions.addDestinationInfo(window.document, "Saturn/Titan", "5149.5 km", "Sol", "1.4 billion km from Earth", "0")
+     studentFunctions.addDestinationInfo(window.document, "Saturn/Titan", "5149.5 km", "Sol", "1.4 billion km from Earth", "0", "https://solarsystem.nasa.gov/system/resources/detail_files/16278_PIA20016.jpg");
      testTarget = missionTarget.innerHTML.replace(/\s/g,'');
-     expect(testTarget).toEqual("<h2>MissionDestination</h2><ol><li>Name:Saturn/Titan</li><li>Diameter:5149.5km</li><li>Star:Sol</li><li>DistancefromEarth:1.4billionkmfromEarth</li><li>NumberofMoons:0</li></ol>");
+     expect(testTarget).toEqual('<h2>MissionDestination</h2><ol><li>Name:Saturn/Titan</li><li>Diameter:5149.5km</li><li>Star:Sol</li><li>DistancefromEarth:1.4billionkmfromEarth</li><li>NumberofMoons:0</li></ol><imgsrc="https://solarsystem.nasa.gov/system/resources/detail_files/16278_PIA20016.jpg">');
    })
+
+   it ("Script contains calls to appropriate helper functions", function() {
+    expect(script.includes("formSubmission(")).toBeTrue;
+    expect(script.includes("myFetch(")).toBeTrue;
+    expect(script.includes("pickPlanet(")).toBeTrue;
+    expect(script.includes("addDestinatonInfo(")).toBeTrue;
+  })
 });
