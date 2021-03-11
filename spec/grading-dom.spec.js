@@ -1,6 +1,7 @@
 var screen = require('@testing-library/dom');
 var JasmineDOM = require('@testing-library/jasmine-dom');
 var studentFunctions = require('../scriptHelper.js');
+require('isomorphic-fetch');
 
 // Set up JSDom
 const fs = require('fs');
@@ -9,37 +10,37 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
 const options = {
-   runScripts: "dangerously",
    resources: "usable",
-   pretendToBeVisual: true
+   runScripts: "dangerously"
 }
 
 let html = fs.readFileSync(path.resolve(__dirname, "../index.html"), 'utf8');
+let helperScript = fs.readFileSync(path.resolve(__dirname, "../scriptHelper.js"), "utf8");
 let script = fs.readFileSync(path.resolve(__dirname, "../script.js"), 'utf8');
 
 describe ("GRADING DOM MANIPULATION TEST: ", function () {
 
    let window, container, list, h2, pilotStatus, copilotStatus, fuelStatus, cargoStatus, missionTarget; 
 
-   beforeAll(function() {
+   beforeAll(async function() {
 
-      const dom = new JSDOM(html, options);
-      window = dom.window;
+      const dom = await JSDOM.fromFile(path.resolve(__dirname, "../index.html"), options).then(dom => window = dom.window);
 
-      let scriptElement = window.document.createElement("script");
-      scriptElement.textContent = script;
-      window.document.head.appendChild(scriptElement);
+      // let scriptElement = window.document.createElement("script");
+      // scriptElement.textContent = script;
+      // window.document.head.appendChild(scriptElement);
 
-      window.addEventListener('load', () => {
-         container = dom.window.document.body;
-         list = screen.getByTestId(container, "faultyItems");
-         h2 = screen.getByTestId(container, "launchStatus");
-         pilotStatus = screen.getByTestId(container, "pilotStatus");
-         copilotStatus = screen.getByTestId(container, "copilotStatus");
-         fuelStatus = screen.getByTestId(container, "fuelStatus");
-         cargoStatus = screen.getByTestId(container, "cargoStatus");
-         missionTarget = screen.getByTestId(container, "missionTarget");
-     });
+      await new Promise (resolve => {
+        window.addEventListener('load', resolve);
+          container = dom.window.document.body;
+          list = screen.getByTestId(container, "faultyItems");
+          h2 = screen.getByTestId(container, "launchStatus");
+          pilotStatus = screen.getByTestId(container, "pilotStatus");
+          copilotStatus = screen.getByTestId(container, "copilotStatus");
+          fuelStatus = screen.getByTestId(container, "fuelStatus");
+          cargoStatus = screen.getByTestId(container, "cargoStatus");
+          missionTarget = screen.getByTestId(container, "missionTarget");
+      });
    });
 
    it ("Function properly validates text", function() {
@@ -49,7 +50,6 @@ describe ("GRADING DOM MANIPULATION TEST: ", function () {
    })
 
    it ("Launch CheckList is ready to go", function() {
-
       // Check page before form submission to make sure everything is working
      expect(list.style.visibility).toEqual("hidden"); 
      expect(pilotStatus.textContent).toEqual("Pilot Ready");
@@ -111,6 +111,7 @@ describe ("GRADING DOM MANIPULATION TEST: ", function () {
    }) 
 
    it ("Mission target has the appropriate info", function() {
+     let missionTarget = screen.getByTestId(window.document.body, "missionTarget");
      let testTarget = missionTarget.innerHTML.replace(/\s/g,'');
      expect(testTarget).toEqual("<!--Fetchsomeplanetarydata-->");
      studentFunctions.addDestinationInfo(window.document, "Saturn/Titan", "5149.5 km", "Sol", "1.4 billion km from Earth", "0", "https://solarsystem.nasa.gov/system/resources/detail_files/16278_PIA20016.jpg");
@@ -119,9 +120,9 @@ describe ("GRADING DOM MANIPULATION TEST: ", function () {
    })
 
    it ("Script contains calls to appropriate helper functions", function() {
-    expect(script.includes("formSubmission(")).toBeTrue;
-    expect(script.includes("myFetch(")).toBeTrue;
-    expect(script.includes("pickPlanet(")).toBeTrue;
-    expect(script.includes("addDestinatonInfo(")).toBeTrue;
-  })
+     expect(script.includes("formSubmission(")).toBeTrue;
+     expect(script.includes("myFetch(")).toBeTrue;
+     expect(script.includes("pickPlanet(")).toBeTrue;
+     expect(script.includes("addDestinatonInfo(")).toBeTrue;
+   })
 });
