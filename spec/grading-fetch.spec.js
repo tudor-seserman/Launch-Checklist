@@ -1,3 +1,5 @@
+// THIS FILE IS BEING USED BY THE AUTOGRADER. DO NOT EDIT IT IN ANY WAY
+
 var studentFunctions = require('../scriptHelper.js');
 const path = require('path');
 const fs = require('fs');

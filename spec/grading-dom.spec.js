@@ -1,3 +1,5 @@
+// THIS FILE IS BEING USED BY THE AUTOGRADER. DO NOT EDIT IT IN ANY WAY
+
 var screen = require('@testing-library/dom');
 var JasmineDOM = require('@testing-library/jasmine-dom');
 var studentFunctions = require('../scriptHelper.js');
