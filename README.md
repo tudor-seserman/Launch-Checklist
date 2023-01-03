@@ -7,6 +7,7 @@ For this "Launch Checklist Form" assignment, you will use a form submission and 
 1. Validate the user responses with `preventDefault()` to ensure the following: 
 
    a. The user has entered something for every field.
+
    b. The user has entered string values for names and number for fuel and cargo levels.
 
 1. With validation, update a list of what is currently ready or not ready for the shuttle launch.
@@ -35,15 +36,21 @@ After reviewing the test output, your TA will check your submission for the foll
 1. On invalid form submission:
 
    a. Is the form data persistent? The page should not reload here.
+
    b. Does an alert appear if an empty or partially filled form is submitted? Is the alert message relevant?
+
    c. Does an alert appear if incorrect data is entered in any field? Names should be strings and fuel and cargo amounts should be numbers.
 
 1. On valid form submission:
 
    a. Do the pilot and co-pilot values submitted appear as the names in the third box?
+
    b. Does the fuel value message reflect if the submitted value is too low (less than 10,000) or in the correct range?
+
    c. Does the cargo value message reflect if the submitted value is too high (more than 10,000) or in the correct range?
+
    d. Is the header message red and does it read 'Shuttle Not Ready for Launch' when either fuel or cargo are not in range?
+   
    e. Is the header message green and does it read 'Shuttle is Ready for Launch' when both fuel and cargo are submitted in range?
 
 1. You added JavaScript in ``script.js`` that is enclosed within a load event listener.
